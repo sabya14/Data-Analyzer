@@ -1,0 +1,44 @@
+version: "3"
+services:
+  kafka_1:
+    image: wurstmeister/kafka:0.10.0.1-2
+    networks:
+      - data-pipeline-internal
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_HOST_NAME=host.docker.internal
+      - KAFKA_ADVERTISED_PORT=9092
+    depends_on:
+      - zookeeper
+
+  kafka_2:
+    image: wurstmeister/kafka:0.10.0.1-2
+    networks:
+      - data-pipeline-internal
+    ports:
+      - "9093:9092"
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_HOST_NAME=host.docker.internal
+      - KAFKA_ADVERTISED_PORT=9093
+    depends_on:
+      - zookeeper
+
+  zookeeper:
+    image: zookeeper:3.3.6
+    networks:
+      - data-pipeline-internal
+    ports:
+      - "2181:2181"
+    depends_on:
+      - zookeeper-seed
+
+  zookeeper-seed:
+    build:
+      context: ../zookeeper
+
+
+networks:
+  data-pipeline-internal:
