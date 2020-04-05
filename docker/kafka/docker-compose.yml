@@ -1,7 +1,7 @@
 version: "3"
 services:
   kafka_1:
-    image: wurstmeister/kafka:0.10.0.1-2
+    image: wurstmeister/kafka:2.12-2.3.1
     networks:
       - data-pipeline-internal
     ports:
@@ -14,7 +14,7 @@ services:
       - zookeeper
 
   kafka_2:
-    image: wurstmeister/kafka:0.10.0.1-2
+    image: wurstmeister/kafka:2.12-2.3.1
     networks:
       - data-pipeline-internal
     ports:
@@ -27,7 +27,7 @@ services:
       - zookeeper
 
   zookeeper:
-    image: zookeeper:3.3.6
+    image: wurstmeister/zookeeper
     networks:
       - data-pipeline-internal
     ports:

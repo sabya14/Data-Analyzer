@@ -1,5 +1,10 @@
 package com.neel.services;
 
+import net.mguenther.kafka.junit.EmbeddedKafkaCluster;
+import net.mguenther.kafka.junit.RecordProducer;
+import net.mguenther.kafka.junit.TopicConfig;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Answers;
@@ -19,6 +24,9 @@ import org.springframework.util.concurrent.ListenableFuture;
 
 import java.lang.reflect.Field;
 
+import static net.mguenther.kafka.junit.EmbeddedKafkaCluster.provisionWith;
+import static net.mguenther.kafka.junit.EmbeddedKafkaClusterConfig.useDefaults;
+import static net.mguenther.kafka.junit.Wait.delay;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -29,7 +37,6 @@ class DataProducerTest {
 
     @InjectMocks
     DataProducer dataProducer;
-
 
     @Mock
     private KafkaTemplate<String, String> kafkaTemplate;
