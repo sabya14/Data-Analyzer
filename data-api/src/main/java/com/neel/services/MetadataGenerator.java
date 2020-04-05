@@ -1,4 +1,5 @@
 package com.neel.services;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
 
