@@ -1,42 +1,28 @@
 package com.neel.services;
 
-import net.mguenther.kafka.junit.EmbeddedKafkaCluster;
-import net.mguenther.kafka.junit.RecordProducer;
-import net.mguenther.kafka.junit.TopicConfig;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import java.lang.reflect.Field;
 
-import static net.mguenther.kafka.junit.EmbeddedKafkaCluster.provisionWith;
-import static net.mguenther.kafka.junit.EmbeddedKafkaClusterConfig.useDefaults;
-import static net.mguenther.kafka.junit.Wait.delay;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class DataProducerTest {
+class HTTPDataProducerTest {
 
     @InjectMocks
-    DataProducer dataProducer;
+    HTTPDataProducer HTTPDataProducer;
 
     @Mock
     private KafkaTemplate<String, String> kafkaTemplate;
@@ -55,13 +41,13 @@ class DataProducerTest {
 
     @Test
     void shouldAddMetaDataAndSendMessage() throws NoSuchFieldException, IllegalAccessException {
-        Field writeTopic = DataProducer.class.getDeclaredField("producerTopic");
+        Field writeTopic = HTTPDataProducer.class.getDeclaredField("producerTopic");
         writeTopic.setAccessible(true);
-        writeTopic.set(dataProducer, "topic");
+        writeTopic.set(HTTPDataProducer, "topic");
 
-        Field producerId = DataProducer.class.getDeclaredField("producerId");
+        Field producerId = HTTPDataProducer.class.getDeclaredField("producerId");
         producerId.setAccessible(true);
-        producerId.set(dataProducer, "producer");
+        producerId.set(HTTPDataProducer, "producer");
 
 
         HttpEntity<String> response = mock(HttpEntity.class, Answers.RETURNS_DEEP_STUBS);
@@ -72,7 +58,7 @@ class DataProducerTest {
         when(metadataGenerator.getCurrentTimeMillis()).thenReturn(1524237281590L);
         when(kafkaTemplate.send(any(), any(), any())).thenReturn(future);
 
-        dataProducer.sendMessage(response);
+        HTTPDataProducer.sendMessage(response);
         verify(kafkaTemplate).send(
                 "topic",
                 eventKey,

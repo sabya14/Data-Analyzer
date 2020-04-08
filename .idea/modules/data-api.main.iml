@@ -11,7 +11,7 @@
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
-    <output url="file://$MODULE_DIR$/../../data-api/build/classes/java/main" />
+    <output url="file://$MODULE_DIR$/../../data-api/out/production/classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../data-api/build/generated/sources/annotationProcessor/java/main">
       <sourceFolder url="file://$MODULE_DIR$/../../data-api/build/generated/sources/annotationProcessor/java/main" isTestSource="false" generated="true" />
@@ -23,6 +23,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.springframework.kafka:spring-kafka:2.3.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.twitter4j:twitter4j-core:4.0.7" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:2.2.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-json:2.2.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-validation:2.2.4.RELEASE" level="project" />

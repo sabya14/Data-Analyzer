@@ -19,7 +19,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 @Service
-public class DataProducer {
+public class HTTPDataProducer {
 
     private KafkaTemplate<String, String> kafkaTemplate;
     private KafkaProducer<String, String> kafkaProducer;
@@ -31,10 +31,10 @@ public class DataProducer {
     @Value("${producer.topic}")
     String producerTopic;
 
-    Logger logger = LoggerFactory.getLogger(DataProducer.class);
+    Logger logger = LoggerFactory.getLogger(HTTPDataProducer.class);
 
     @Autowired
-    public DataProducer(KafkaTemplate<String, String> kafkaTemplate, MetadataGenerator metadataGenerator, KafkaProducer<String, String> kafkaProducer) {
+    public HTTPDataProducer(KafkaTemplate<String, String> kafkaTemplate, MetadataGenerator metadataGenerator, KafkaProducer<String, String> kafkaProducer) {
         this.kafkaTemplate = kafkaTemplate;
         this.metadataGenerator = metadataGenerator;
         this.kafkaProducer = kafkaProducer;
@@ -52,7 +52,6 @@ public class DataProducer {
         String messageId = metadataGenerator.generateUniqueKey();
         String kafkaMessage = getMessage(response, messageId);
         ListenableFuture<SendResult<String, String>> future = this.kafkaTemplate.send(producerTopic, messageId, kafkaMessage);
-
         future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
 
             @Override
