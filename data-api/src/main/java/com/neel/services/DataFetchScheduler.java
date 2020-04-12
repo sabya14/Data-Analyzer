@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestTemplate;
 
 
-// Enable when polling for data files.
+
 //@Component
 public class DataFetchScheduler {
 
@@ -20,7 +20,8 @@ public class DataFetchScheduler {
         this.HTTPDataProducer = HTTPDataProducer;
     }
 
-    @Scheduled(cron="${producer.cron}")
+    // Enable when polling for data files.
+    // @Scheduled(cron="${producer.cron}")
     public void scheduledProducer() {
         RestTemplate template = new RestTemplate();
         HttpEntity<String> response = template.exchange(url, HttpMethod.GET, HttpEntity.EMPTY, String.class);

@@ -10,7 +10,6 @@ public class MetadataGenerator {
     long getCurrentTimeMillis() {
         return System.currentTimeMillis();
     }
-
     String generateUniqueKey() {
         return UUID.randomUUID().toString();
     }

@@ -19,14 +19,8 @@ public class Application {
     private final CountDownLatch latch = new CountDownLatch(1);
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
+        SpringApplication.run(Application.class, args
 
-    @Bean
-    public CommandLineRunner commandLineRunner() {
-        return args -> {
-            logger.info("Starting app");
-            latch.await();
-        };
+        );
     }
 }
