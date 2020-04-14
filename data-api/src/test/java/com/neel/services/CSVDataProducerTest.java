@@ -1,25 +1,59 @@
 package com.neel.services;
 
+import com.salesforce.kafka.test.KafkaTestUtils;
+import com.salesforce.kafka.test.junit5.SharedKafkaTestResource;
+import com.salesforce.kafka.test.listeners.PlainListener;
+import info.batey.kafka.unit.KafkaUnit;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
-import org.springframework.util.concurrent.ListenableFuture;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.stream.Stream;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 
-@ExtendWith(MockitoExtension.class)
+
+@SpringBootTest
 class CSVDataProducerTest {
+
+    @RegisterExtension
+    public static final SharedKafkaTestResource sharedKafkaTestResource = new SharedKafkaTestResource()
+            .withBrokers(2)
+            .registerListener(new PlainListener().onPorts(9093, 9094));
+
+    @Autowired
+    CSVDataProducer csvDataProducer;
+    private static KafkaUnit kafkaUnitServer;
+
+    @BeforeAll
+    static void setupKafkaCluster() {
+    }
+
+    @BeforeEach
+    void setUp() {
+
+    }
+
+    @Test
+    public void shouldWriteDataToTopic() {
+        csvDataProducer.startProducing();
+        String topicName = "bus_data";
+
+        await()
+                .atMost(15, TimeUnit.SECONDS)
+                .untilAsserted(() -> {
+                    KafkaTestUtils kafkaTestUtils = sharedKafkaTestResource.getKafkaTestUtils();
+                    List<ConsumerRecord<String, String>> allMessages = kafkaTestUtils.consumeAllRecordsFromTopic(topicName, StringDeserializer.class, StringDeserializer.class);
+                    System.out.println(allMessages);
+                    assertThat(allMessages).isNotEmpty();
+                });
+    }
 
 }
