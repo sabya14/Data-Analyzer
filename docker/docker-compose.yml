@@ -1,0 +1,60 @@
+version: "3"
+services:
+  kafka_1:
+    image: wurstmeister/kafka:2.12-2.3.1
+    networks:
+      - data-pipeline-internal
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_HOST_NAME=host.docker.internal
+      - KAFKA_ADVERTISED_PORT=9092
+    depends_on:
+      - zookeeper
+
+  kafka_2:
+    image: wurstmeister/kafka:2.12-2.3.1
+    networks:
+      - data-pipeline-internal
+    ports:
+      - "9093:9092"
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_HOST_NAME=host.docker.internal
+      - KAFKA_ADVERTISED_PORT=9093
+    depends_on:
+      - zookeeper
+
+  solr:
+    image: solr:8.5.0-slim
+    container_name: solr
+    networks:
+      - data-pipeline-internal
+    ports:
+      - 8983:8983
+    depends_on:
+      - zookeeper
+    environment:
+      SOLR_AUTH_TYPE: basic
+      SOLR_AUTHENTICATION_OPTS: -Dbasicauth=solr:SolrRocks
+    volumes:
+      - ./solr-data:/var/solr
+    command: sh -c 'solr start -z zookeeper:2181 && solr create -c "busData" && sleep infinity'
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    networks:
+      - data-pipeline-internal
+    ports:
+      - "2181:2181"
+    depends_on:
+      - zookeeper-seed
+
+  zookeeper-seed:
+    build:
+      context: zookeeper
+
+
+networks:
+  data-pipeline-internal:

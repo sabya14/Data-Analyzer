@@ -7,6 +7,8 @@
     <bytecodeTargetLevel>
       <module name="data-api.main" target="1.8" />
       <module name="data-api.test" target="1.8" />
+      <module name="data-consumer.main" target="1.8" />
+      <module name="data-consumer.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
