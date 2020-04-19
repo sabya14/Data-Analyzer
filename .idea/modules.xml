@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Data-Pipeline-Template.iml" filepath="$PROJECT_DIR$/.idea/Data-Pipeline-Template.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data-api.iml" filepath="$PROJECT_DIR$/.idea/modules/data-api.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data-api.main.iml" filepath="$PROJECT_DIR$/.idea/modules/data-api.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data-api.test.iml" filepath="$PROJECT_DIR$/.idea/modules/data-api.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data-consumer.iml" filepath="$PROJECT_DIR$/.idea/modules/data-consumer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data-consumer.main.iml" filepath="$PROJECT_DIR$/.idea/modules/data-consumer.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data-consumer.test.iml" filepath="$PROJECT_DIR$/.idea/modules/data-consumer.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/docker/docker.iml" filepath="$PROJECT_DIR$/docker/docker.iml" />
     </modules>
   </component>
 </project>

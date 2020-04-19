@@ -3,7 +3,6 @@ package com.neel.services;
 import com.salesforce.kafka.test.KafkaTestUtils;
 import com.salesforce.kafka.test.junit5.SharedKafkaTestResource;
 import com.salesforce.kafka.test.listeners.PlainListener;
-import info.batey.kafka.unit.KafkaUnit;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.junit.jupiter.api.BeforeAll;
@@ -30,7 +29,6 @@ class CSVDataProducerTest {
 
     @Autowired
     CSVDataProducer csvDataProducer;
-    private static KafkaUnit kafkaUnitServer;
 
     @BeforeAll
     static void setupKafkaCluster() {
