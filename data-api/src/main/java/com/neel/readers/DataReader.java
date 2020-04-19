@@ -1,4 +1,8 @@
 package com.neel.readers;
 
-public class DataReader {
+
+import java.util.stream.Stream;
+
+public interface DataReader {
+    public Stream<DataRow> read();
 }

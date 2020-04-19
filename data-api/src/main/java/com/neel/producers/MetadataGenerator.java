@@ -1,4 +1,4 @@
-package com.neel.services;
+package com.neel.producers;
 
 import org.springframework.stereotype.Service;
 
@@ -7,10 +7,10 @@ import java.util.UUID;
 
 @Service
 public class MetadataGenerator {
-    long getCurrentTimeMillis() {
+    public long getCurrentTimeMillis() {
         return System.currentTimeMillis();
     }
-    String generateUniqueKey() {
+    public String generateUniqueKey() {
         return UUID.randomUUID().toString();
     }
 }
