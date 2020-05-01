@@ -1,5 +1,7 @@
 package com.neel.models;
 
+import com.google.gson.Gson;
+
 public class KafkaMessage {
     private String message;
     private KafkaMessageMetaData metadata;
@@ -12,6 +14,7 @@ public class KafkaMessage {
     public String getMessageString() {
         return "{\"metadata\": " + metadata.toString() + ", \"payload\": " + message + "}";
     }
+
 }
 
 

@@ -27,7 +27,7 @@ class CSVDataReaderPropTestCSVDataReaderTest {
         CSVDataReader csvDataReader = new CSVDataReader(csvDataReaderProp);
         Stream<DataRow> lines = csvDataReader.read();
         Optional<DataRow> first = lines.findFirst();
-        assertEquals(first.toString(), "Optional[This is a test line.]");
+        assertEquals(first.get().toString(), "[\"1\",\"12\",\"Neel\"]");
     }
 
 }

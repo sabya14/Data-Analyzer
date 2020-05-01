@@ -11,8 +11,8 @@ class KafkaMessageTest {
     void shouldReturnMessage() {
         KafkaMessageMetaData kafkaMessageMetaData = mock(KafkaMessageMetaData.class);
         when(kafkaMessageMetaData.toString()).thenReturn("test_metadata");
-        String message = "{\"metadata\": " + "test_metadata" + ", \"payload\": " + "message" + "}";
-        String kafkaMessage = new KafkaMessage("message", kafkaMessageMetaData).getMessageString();
+        String message = "{\"metadata\": " + "test_metadata" + ", \"payload\": " + "[\"1\",\"Test\",\"12\"]" + "}";
+        String kafkaMessage = new KafkaMessage("[\"1\",\"Test\",\"12\"]", kafkaMessageMetaData).getMessageString();
         assertEquals(kafkaMessage, message);
     }
 

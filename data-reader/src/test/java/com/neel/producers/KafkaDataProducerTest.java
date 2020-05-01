@@ -11,6 +11,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -53,7 +54,7 @@ class KafkaDataProducerTest {
         when(metadataGenerator.generateUniqueKey()).thenReturn(eventKey);
         when(metadataGenerator.getCurrentTimeMillis()).thenReturn(1524237281590L);
         when(kafkaTemplate.send(any(), any(), any())).thenReturn(future);
-        Stream<DataRow> readerOutput = Stream.of(new DataRow("This is a data"),new DataRow("This is another data"));
+        Stream<DataRow> readerOutput = Stream.of(new DataRow(Arrays.asList("1", "Test", "12")),new DataRow(Arrays.asList("2", "Test", "13")));
         when(dataReader.read()).thenReturn(readerOutput);
         dataProducer.produce();
         verify(kafkaTemplate, times(2)).send(eq(producerTopic), eq(eventKey), anyString());
@@ -62,10 +63,10 @@ class KafkaDataProducerTest {
                 producerTopic,
                 eventKey,
                 "{\"metadata\": {\"producer_id\": \"" + producerId + "\", " +
-                        "\"size\": 14, " +
+                        "\"size\": 17, " +
                         "\"message_id\": \"" + eventKey + "\", " +
                         "\"ingestion_time\": 1524237281590}, " +
-                        "\"payload\": This is a data}"
+                        "\"payload\": [\"2\",\"Test\",\"13\"]}"
         );
     }
 
