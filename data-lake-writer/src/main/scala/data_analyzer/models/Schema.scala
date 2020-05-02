@@ -3,7 +3,7 @@ package data_analyzer.models
 import data_analyzer.models.SupportedDataType.SupportedDataType
 
 
-class Schema(private val schemaDefinition: Seq[(String, SupportedDataType)]) {
+case class Schema(private val schemaDefinition: Seq[(String, SupportedDataType)]) {
 
   def this(schemaDefinition: Map[Int, (String, SupportedDataType)]) = this(
     schemaDefinition.toSeq
@@ -12,5 +12,7 @@ class Schema(private val schemaDefinition: Seq[(String, SupportedDataType)]) {
   )
 
   def getDefinition: Seq[(String, SupportedDataType)] = schemaDefinition
+
+  def getColumns: Seq[String] = schemaDefinition.map(x => x._1)
 }
 
