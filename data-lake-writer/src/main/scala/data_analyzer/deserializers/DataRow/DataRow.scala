@@ -1,4 +1,4 @@
-package data_analyzer.Deserializers.DataRow
+package data_analyzer.deserializers.DataRow
 
 import java.util
 

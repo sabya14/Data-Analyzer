@@ -1,4 +1,4 @@
-package data_analyzer.Writers
+package data_analyzer.writers
 
 class HadoopWriterTest extends org.scalatest.FunSuite {
 
