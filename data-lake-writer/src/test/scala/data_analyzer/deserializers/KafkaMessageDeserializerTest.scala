@@ -1,8 +1,6 @@
 package data_analyzer.deserializers
 
-
-import data_analyzer.models.DataRow.JSONArrayDataRow
-import data_analyzer.models.{Schema, SupportedDataType}
+import data_analyzer.models.{JSONArrayDataRow, Schema, SupportedDataType}
 
 import scala.collection.mutable
 

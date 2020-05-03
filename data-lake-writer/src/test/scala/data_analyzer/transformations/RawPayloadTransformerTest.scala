@@ -1,9 +1,8 @@
 package data_analyzer.transformations
 
 import com.github.mrpowers.spark.fast.tests.DatasetComparer
-import data_analyzer.models.DataRow.JSONArrayDataRow
 import data_analyzer.models.SupportedDataType.SupportedDataType
-import data_analyzer.models.{KafkaMessage, MetaData, Schema, SupportedDataType}
+import data_analyzer.models.{JSONArrayDataRow, KafkaMessage, MetaData, Schema, SupportedDataType}
 import data_analyzer.{KafkaMessageMother, SparkTestSession}
 import org.scalatest.matchers.should.Matchers
 
@@ -66,7 +65,7 @@ class RawPayloadTransformerTest extends org.scalatest.FunSuite with SparkTestSes
     ).toDS()
 
     val transformer = new RawPayloadTransformer()
-    val actual = transformer.serializePayload(spark, inputDF)
+    val actual = transformer.deserializePayload(spark, inputDF)
     actual.collect().toList should contain allElementsOf expectedDf.collect().toList
   }
 
@@ -97,7 +96,5 @@ class RawPayloadTransformerTest extends org.scalatest.FunSuite with SparkTestSes
     ).toDF("ID", "Name", "Marks")
 
     assertSmallDatasetEquality(actualDf, expectedDf)
-
-
   }
 }

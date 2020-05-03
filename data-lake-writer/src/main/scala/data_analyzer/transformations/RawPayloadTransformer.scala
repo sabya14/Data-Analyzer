@@ -1,8 +1,7 @@
 package data_analyzer.transformations
 
 import data_analyzer.deserializers.KafkaMessageDeserializer
-import data_analyzer.models.DataRow.JSONArrayDataRow
-import data_analyzer.models.{KafkaMessage, Schema}
+import data_analyzer.models.{JSONArrayDataRow, KafkaMessage, Schema}
 import org.apache.spark.sql.catalyst.ScalaReflection
 import org.apache.spark.sql.catalyst.encoders.{ExpressionEncoder, RowEncoder}
 import org.apache.spark.sql.functions._
@@ -10,8 +9,20 @@ import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructT
 import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
 
 class RawPayloadTransformer {
-  def transformToCorrectSchema(inputDf: Dataset[JSONArrayDataRow], schema: Schema): DataFrame = {
+  def deserializePayload(spark: SparkSession, inputDF: Dataset[KafkaMessage]): Dataset[JSONArrayDataRow] = {
+    import spark.implicits._
+    inputDF.select($"payload" as "row")
+      .as[JSONArrayDataRow]
+  }
 
+  def transformKafkaMessage(spark: SparkSession, inputDf: DataFrame): Dataset[KafkaMessage] = {
+    import spark.implicits._
+    inputDf.select(from_json($"raw_payload", ScalaReflection.schemaFor[KafkaMessage].dataType).as("json"))
+      .select("json.*")
+      .as[KafkaMessage]
+  }
+
+  def transformToCorrectSchema(inputDf: Dataset[JSONArrayDataRow], schema: Schema): DataFrame = {
     val schema1 = StructType(Seq(
       StructField("ID", IntegerType, nullable = false),
       StructField("Name", StringType),
@@ -27,19 +38,6 @@ class RawPayloadTransformer {
         row
     }(encoder)
 
-  }
-
-  def serializePayload(spark: SparkSession, inputDF: Dataset[KafkaMessage]): Dataset[JSONArrayDataRow] = {
-    import spark.implicits._
-    inputDF.select($"payload" as "row")
-      .as[JSONArrayDataRow]
-  }
-
-  def transformKafkaMessage(spark: SparkSession, inputDf: DataFrame): Dataset[KafkaMessage] = {
-    import spark.implicits._
-    inputDf.select(from_json($"raw_payload", ScalaReflection.schemaFor[KafkaMessage].dataType).as("json"))
-      .select("json.*")
-      .as[KafkaMessage]
   }
 
 }

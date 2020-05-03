@@ -16,9 +16,12 @@ libraryDependencies ++= Seq(
   "org.apache.spark" % "spark-streaming-kafka-0-10_2.12" % sparkVersion,
   "org.apache.spark" %% "spark-sql-kafka-0-10" % sparkVersion,
   "org.apache.spark" %% "spark-streaming" % sparkVersion,
+  "org.apache.hadoop" % "hadoop-hdfs" % "2.8.1",
+  "org.apache.hadoop" % "hadoop-common" % "2.8.1",
 
   "org.scalatest" %% "scalatest" % "3.1.1" % "test",
   "MrPowers" % "spark-fast-tests" % "0.20.0-s_2.12" % Test,
-  "io.github.embeddedkafka" %% "embedded-kafka" % "2.4.1.1" % Test
+  "io.github.embeddedkafka" %% "embedded-kafka" % "2.4.1.1" % Test,
+  "org.apache.hadoop" % "hadoop-minicluster" % "2.8.1" % Test
 
 )

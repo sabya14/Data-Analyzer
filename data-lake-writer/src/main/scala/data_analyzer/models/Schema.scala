@@ -12,7 +12,6 @@ case class Schema(private val schemaDefinition: Seq[(String, SupportedDataType)]
   )
 
   def getDefinition: Seq[(String, SupportedDataType)] = schemaDefinition
-
   def getColumns: Seq[String] = schemaDefinition.map(x => x._1)
 }
 
