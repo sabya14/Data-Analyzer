@@ -26,21 +26,17 @@ class KafkaConsumerTest extends org.scalatest.FunSuite with EmbeddedKafka with K
         StructField(keyColumnName, StringType, nullable = false) :: StructField(valueColumnName, StringType, nullable = false) :: Nil)
 
       var df = spark.createDataFrame(spark.sparkContext.emptyRDD[Row], schema)
-
       val query = frame.writeStream
         .foreachBatch { (output: DataFrame, batchId: Long) => df = df.union(output) }
         .start()
 
-      query.awaitTermination(5000)
-      Thread.sleep(1000)
 
       publishStringMessageToKafka("topic", getMessage("topic", "123", """[1, "Neel", "100"]"""))
       publishStringMessageToKafka("topic", getMessage("topic", "123", """[2, "Neel1", "10"]"""))
       publishStringMessageToKafka("topic", getMessage("topic", "123", """[3, "Neel2", "1"]"""))
       publishStringMessageToKafka("topic", getMessage("topic", "123", """[4, "Neel3", "1000"]"""))
 
-      Thread.sleep(4000)
-
+      query.awaitTermination(10000)
 
       val expected = Seq[(String, String)](
         (null, getMessage("topic", "123", """[1, "Neel", "100"]""")),
@@ -57,4 +53,5 @@ class KafkaConsumerTest extends org.scalatest.FunSuite with EmbeddedKafka with K
 
 
   }
+
 }

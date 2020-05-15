@@ -8,7 +8,7 @@ class KafkaConsumer(spark: SparkSession, kafkaBrokers: String, topic: String) {
       .format("kafka")
       .option("kafka.bootstrap.servers", kafkaBrokers)
       .option("subscribe", topic)
-      .option("startingOffsets", "latest")
+      .option("startingOffsets", "earliest")
       .load()
       .selectExpr(s"CAST(key AS STRING) as ${keyColumnName}", s"CAST(value AS STRING) as ${valueColumnName}")
   df

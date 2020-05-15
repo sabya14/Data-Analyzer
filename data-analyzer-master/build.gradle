@@ -6,10 +6,8 @@ plugins {
 }
 
 
-
-group = 'neel'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+group 'org.example'
+version '1.0-SNAPSHOT'
 
 configurations {
     compileOnly {
@@ -39,6 +37,7 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 }
+
 
 test {
     useJUnitPlatform()

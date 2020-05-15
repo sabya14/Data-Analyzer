@@ -5,9 +5,7 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.streaming.StreamingQuery
 
-import scala.util.{Failure, Try}
-
-class HadoopWriter(uri: String) {
+class HadoopWriter(val uri: String) {
 
   val conf = new Configuration()
   conf.set("fs.defaultFS", uri)
@@ -23,13 +21,15 @@ class HadoopWriter(uri: String) {
   }
 
   def writeToHadoop(streamingDf: DataFrame, dir: String, checkpointDir: String): StreamingQuery = {
-    createDir(dir)
-    createDir(checkpointDir)
+    val fullFilePath = s"${uri}/${dir}"
+    createDir(fullFilePath)
+    val fullCPPath = s"${uri}/${checkpointDir}"
+    createDir(fullCPPath)
     streamingDf.writeStream
       .outputMode("append")
       .format("csv")
-      .option("checkpointLocation", checkpointDir)
-      .option("path", dir)
+      .option("checkpointLocation", fullCPPath)
+      .option("path", fullFilePath)
       .start()
   }
 }

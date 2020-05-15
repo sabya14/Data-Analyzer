@@ -29,17 +29,16 @@ class HadoopWriterTest extends org.scalatest.FunSuite with HDFSTestWrapper with 
       .csv(getClass.getResource("/input_dir").getPath) // Equivalent to format("csv").load("/path/to/directory")
 
     val writer = new HadoopWriter(getNameNodeURI)
-    val hadoopDir = getNameNodeURI + "/user"
-    val checkpointDir = getNameNodeURI + "/checkPoint"
+    val hadoopDir = "user"
+    val checkpointDir = "checkPoint"
 
     val query = writer.writeToHadoop(csvStreamDF, hadoopDir, checkpointDir)
-    query.awaitTermination(2000)
-    Thread.sleep(2000)
+    query.awaitTermination(10000)
 
     val frame = spark.read.
       option("sep", ",")
       .schema(userSchema)
-      .csv(hadoopDir)
+      .csv(getNameNodeURI+ "/user")
 
     assertSmallDatasetEquality(csvDF, frame)
 

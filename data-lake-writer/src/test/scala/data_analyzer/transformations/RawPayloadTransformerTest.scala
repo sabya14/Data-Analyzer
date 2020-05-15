@@ -95,6 +95,6 @@ class RawPayloadTransformerTest extends org.scalatest.FunSuite with SparkTestSes
       (4, "Neel3", 1000),
     ).toDF("ID", "Name", "Marks")
 
-    assertSmallDatasetEquality(actualDf, expectedDf)
+    assertSmallDatasetEquality(actualDf, expectedDf, ignoreNullable = true)
   }
 }
